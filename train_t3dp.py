@@ -32,6 +32,7 @@ from utils.utils_measure import AverageMeter
 from utils.make_video import refine_visuals, make_video
 
 from HMAR_tracker import HMAR_tracker
+from evaluate_t3dp import evaluate_trackers
 
 from deep_sort_ import nn_matching
 from deep_sort_.detection import Detection

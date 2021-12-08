@@ -116,7 +116,7 @@ def test_tracker(opt, hmar_tracker):
             window     = frame_length//opt.window_x
             start_     = 0; start_2    = 0
             
-            for w_ in tqdm(range(frame_length//window)):
+            for w_ in range(frame_length//window):
                 
                 with torch.no_grad():
                     output, _  = hmar_tracker.forward(BS, window, P,  [pose_emb[w_*window:(w_+1)*window].unsqueeze(0).cuda(), appe_emb[w_*window:(w_+1)*window].unsqueeze(0).cuda()], 
