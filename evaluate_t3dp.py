@@ -12,8 +12,6 @@ from tqdm import tqdm
 
 
 import motmetrics as mm
-from utils.losses import ReIDLoss
-# from pycocotools.coco import COCO
 
 import sys
 from tqdm import tqdm
