@@ -40,6 +40,9 @@ We provide preprocessed files for PoseTrack and MuPoTs datasets (AVA files will 
 - [_DATA/Posetrack_2018](https://posetrack.net)
 - [_DATA/MuPoTs](http://vcai.mpi-inf.mpg.de/projects/SingleShotMultiPerson/)
 
+Besides these files, you also need to download the [neutral *SMPL* model](http://smplify.is.tue.mpg.de). Please go to the website for the corresponding project and register to get access to the downloads section. Create a folder `_DATA/models/smpl/` and place the model there. Otherwise, you can also run:
+
+`python3 utils/convert_smpl.py`
     
 ## Training
 To train the transformer model with posetrack data run,
@@ -101,6 +104,7 @@ Parts of the code are taken or adapted from the following repos:
 - [SPIN](https://github.com/nkolot/SPIN)
 - [VIBE](https://github.com/mkocabas/VIBE)
 - [SMALST](https://github.com/silviazuffi/smalst)
+- [ProHMR](https://github.com/nkolot/ProHMR)
 
 ## Contact
 Jathushan Rajasegaran - jathushan@berkeley.edu or brjathu@gmail.com

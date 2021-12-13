@@ -172,7 +172,7 @@ def run_detection(image_path):
             centers_.append(center)
             scales_.append(scale)
             confs_.append(score)
-
+    
     video_npz = os.path.join(image_path, 'detections.npz')
     np.savez(video_npz, 
              imgname=imgnames_,
@@ -307,8 +307,9 @@ if __name__ == '__main__':
     dataset_path   = "_DATA/DEMO/" 
     
     os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
-    try:    os.mkdir("_DATA/DEMO/"+video_folder); os.mkdir("_DATA/DEMO/"+video_folder+"/detections")
-    except: pass
+    os.system("mkdir _DATA/DEMO/")
+    os.system("mkdir _DATA/DEMO/"+video_folder)
+    os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
 
     video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
     print('Summary:')
@@ -321,7 +322,7 @@ if __name__ == '__main__':
     fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
     print(fe.n_frames)
     print(fe.get_video_duration())
-    fe.extract_frames(every_x_frame=2, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=10000)
+    fe.extract_frames(every_x_frame=2, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=100)
     
     run_detection(dataset_path + video_folder)
     run_hmar(dataset_path + video_folder)

@@ -118,5 +118,7 @@ dependencies:
     - scikit-learn==0.22.2
     - pytube==11.0.1
     - motmetrics==1.2.0
+    - dill==0.3.4
+    - chumpy==0.70
 
 
