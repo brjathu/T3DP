@@ -66,7 +66,7 @@ Once the posetrack dataset is downloaded at "_DATA/Posetrack_2018/", run the fol
 
 `python test_t3dp.py` \
 `--dataset          "posetrack"` \
-`--dataset_path     "_DATA/Posetrack_2018/"` \
+`--dataset_path     "_DATA/Posetrack_2018/images/val/"` \
 `--storage_folder   "Videos_Final"` \
 `--render           True` \
 `--save             True`
