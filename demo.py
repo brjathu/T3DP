@@ -315,7 +315,7 @@ if __name__ == '__main__':
     print('Summary:')
     print(f'Title: {video.title}')
     print(f'Duration: {video.length / 60:.2f} minutes')
-    print(f'Rating: {video.rating:.2f}')
+    # print(f'Rating: {video.rating:.2f}')
     print(f'# of views: {video.views}')
     print(video.streams.all())
     video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
