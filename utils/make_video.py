@@ -164,8 +164,10 @@ def make_video(HMAR_model, save, render, opt, video_name, final_visuals_dic):
 
         if(start==0): 
             start = 1
-            fourcc     = cv2.VideoWriter_fourcc(*'MJPG')
-            video_file = cv2.VideoWriter("out/" + opt.storage_folder + "/" + video_name + ".avi", fourcc, 15, frameSize=(2*img_width//opt.downsample, img_height//opt.downsample))
+            fourcc         = cv2.VideoWriter_fourcc(*'mp4v')
+            video_file     = cv2.VideoWriter("out/" + opt.storage_folder + "/" + video_name + ".mp4", fourcc, 15, frameSize=(2*img_width//opt.downsample, img_height//opt.downsample))
+            # fourcc     = cv2.VideoWriter_fourcc(*'MJPG')
+            # video_file = cv2.VideoWriter()
 
         ### visiualize the tracks using 3D rendering or with bboxes
         if(render):
