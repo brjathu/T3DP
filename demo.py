@@ -110,7 +110,8 @@ def process_image_simple(img):
 
 def run_detection(image_path):
     
-    cfg = get_cfg()
+    time_ = []
+    cfg   = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml"))
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
     cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml")
@@ -121,7 +122,9 @@ def run_detection(image_path):
 
     for f in tqdm(files):
         im = cv2.imread(f)
+        t1 = time.time()
         outputs = predictor(im)
+        time_.append(time.time()-t1)
         instances = outputs['instances']
         out_npz = os.path.join(image_path + "/detections", '%s.npz' % f.split('/')[-1][:-4])
         np.savez(out_npz, classes=instances.pred_classes.cpu().numpy(), scores=instances.scores.cpu().numpy(), boxes=instances.pred_boxes.tensor.cpu().numpy(), masks=instances.pred_masks.cpu().numpy())
@@ -182,9 +185,11 @@ def run_detection(image_path):
              conf=confs_,
              instances=instances)
     
-    
+    return time_
+
+
 def run_hmar(video_path):
-    
+    time_           = []
     config          = os.path.join('utils/config.yaml')
     checkpoint      = '_DATA/t3dp_hmar.pt'
         
@@ -263,8 +268,10 @@ def run_hmar(video_path):
                 image_tmp                 = process_image(image, center_, 1.0*np.max(scale_))
 
                 with torch.no_grad():
-                    ratio           = 1.0/int(new_image_size)*res
+                    ratio                 = 1.0/int(new_image_size)*res
+                    t1                    = time.time()
                     pose_embedding, appe_embedding, flow, uv_map                               = HMAR_model(image_tmp.unsqueeze(0).cuda())
+                    time_.append(time.time()-t1)
                     rendered_image, pred_keypoints_2d, pred_keypoints_3d, translation          = HMAR_model.render_3d(pose_embedding, (center_ + [left, top])*ratio, max(scale_)*ratio, res, np.array([[150,0,0]])/255.)
                     smpl_parameters                                                            = HMAR_model.get_smpl_pose(pose_embedding)
 
@@ -292,9 +299,8 @@ def run_hmar(video_path):
                 
         with open(video_path + '/hmar_' + video_name + '.pickle', 'wb') as handle:
             pickle.dump(track, handle, protocol=pickle.HIGHEST_PROTOCOL)
-            
-            
-            
+                 
+    return time_  
             
             
 if __name__ == '__main__':
@@ -303,30 +309,31 @@ if __name__ == '__main__':
     
     
     YOUTUBE_ID     = 'xEH_5T9jMVU'  
-    video_folder   = "video_a/"
+    video_folder   = "video_"+ YOUTUBE_ID +"/"
     dataset_path   = "_DATA/DEMO/" 
     
-    os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
-    os.system("mkdir _DATA/DEMO/")
-    os.system("mkdir _DATA/DEMO/"+video_folder)
-    os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
+#     os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
+#     os.system("mkdir _DATA/DEMO/")
+#     os.system("mkdir _DATA/DEMO/"+video_folder)
+#     os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
 
-    video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
-    print('Summary:')
-    print(f'Title: {video.title}')
-    print(f'Duration: {video.length / 60:.2f} minutes')
-    # print(f'Rating: {video.rating:.2f}')
-    print(f'# of views: {video.views}')
-    print(video.streams.all())
-    video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
-    fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
-    print(fe.n_frames)
-    print(fe.get_video_duration())
-    fe.extract_frames(every_x_frame=2, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=100)
+#     video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
+#     print('Summary:')
+#     print(f'Title: {video.title}')
+#     print(f'Duration: {video.length / 60:.2f} minutes')
+#     # print(f'Rating: {video.rating:.2f}')
+#     print(f'# of views: {video.views}')
+#     print(video.streams.all())
+#     video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
+#     fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
+#     print(fe.n_frames)
+#     print(fe.get_video_duration())
+#     fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=100000)
     
-    run_detection(dataset_path + video_folder)
-    run_hmar(dataset_path + video_folder)
     
+#     detection_time_    = run_detection(dataset_path + video_folder)
+#     hmar_time_         = run_hmar(dataset_path + video_folder)
+
     
     parser = argparse.ArgumentParser(description='T3PO Tracker')
     parser.add_argument('--dataset', type=str, default='val')
@@ -340,12 +347,12 @@ if __name__ == '__main__':
     opt.max_age_x      = 100
     opt.n_init_x       = 5
     opt.max_ids_x      = 10
-    opt.window_x       = 1
+    opt.window_x       = 10
     opt.metric_x       = "euclidean_min"
-    opt.render         = True
-    opt.save           = True
+    opt.render         = False
+    opt.save           = False
     opt.downsample     = 1
-    opt.videos_seq     = ['video_a']
+    opt.videos_seq     = ["video_"+ YOUTUBE_ID]
     
     
     hmar_tracker       = HMAR_tracker(mode="APK", betas=[1.0,1.0,1.0])
@@ -357,5 +364,9 @@ if __name__ == '__main__':
     
     hmar_tracker.cuda()
     hmar_tracker.eval()
-    test_tracker(opt, hmar_tracker)
+    
+    t3dp_time_         = test_tracker(opt, hmar_tracker)
 
+    # print("Mask RCNN runtime : ", np.sum(detection_time_))    
+    # print("HMAR runtime : ", np.sum(hmar_time_))    
+    print("T3DP runtime : ", np.sum(t3dp_time_))

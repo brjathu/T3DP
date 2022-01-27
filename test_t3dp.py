@@ -14,6 +14,7 @@ import heapq
 import argparse
 import pickle
 import cv2
+import time 
 import numpy as np
 from PIL import Image
 from tqdm import tqdm
@@ -47,7 +48,7 @@ def str2bool(v):
         
 def test_tracker(opt, hmar_tracker):
 
-    
+    time_           = []
     config          = os.path.join('utils/config.yaml')
     checkpoint      = '_DATA/t3dp_hmar.pt'
 
@@ -117,7 +118,7 @@ def test_tracker(opt, hmar_tracker):
             start_     = 0; start_2    = 0
             
             for w_ in range(frame_length//window):
-                
+                t1 = time.time()
                 with torch.no_grad():
                     output, _  = hmar_tracker.forward(BS, window, P,  [pose_emb[w_*window:(w_+1)*window].unsqueeze(0).cuda(), appe_emb[w_*window:(w_+1)*window].unsqueeze(0).cuda()], 
                                                                       person_id[w_*window:(w_+1)*window].unsqueeze(0), 
@@ -125,8 +126,9 @@ def test_tracker(opt, hmar_tracker):
                                                                       keypoints_3d[w_*window:(w_+1)*window].unsqueeze(0))   
                     embeddings = output["output_embeddings"] 
                 embeddings = embeddings.view(BS, window, P, -1)
-                
+                time_.append(time.time()-t1)
                 for t in list(range(window)):
+                    t1 = time.time()
                     t_   = t + w_*window
                     loc_ = np.where(person_id[w_*window:(w_+1)*window][t]!=-1)[0]
                     embeddings_normalized  = embeddings[0, t, loc_].cpu().numpy()
@@ -141,10 +143,11 @@ def test_tracker(opt, hmar_tracker):
                             detections.append(det); detection_filter.append(m)
                     
                     tracked_ids_ = []; tracked_bbox_ = []
+                    
                     tracker.predict()
                     if(len(detections)>0): 
                         matches = tracker.update(detections)
-
+                    time_.append(time.time()-t1)
                     visual_ids   = []
                     for tracks_ in tracker.tracks:
                         if(tracks_.time_since_update!=0):  continue
@@ -176,7 +179,9 @@ def test_tracker(opt, hmar_tracker):
             if(opt.save): 
                 new_visuals_dic, refined_eval_dic = refine_visuals(final_visuals_dic)
                 make_video(HMAR_model, opt.save, opt.render, opt, video_name, new_visuals_dic)                 
-                
+    
+    return time_
+
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description='T3DP Tracker')
