@@ -109,8 +109,9 @@ def process_image_simple(img):
 
 
 def run_detection(image_path):
-    time_           = []
-    cfg             = get_cfg()
+    
+    time_ = []
+    cfg   = get_cfg()
     cfg.merge_from_file(model_zoo.get_config_file("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml"))
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5
     cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-InstanceSegmentation/mask_rcnn_X_101_32x8d_FPN_3x.yaml")
@@ -311,23 +312,42 @@ if __name__ == '__main__':
     video_folder   = "video_"+ YOUTUBE_ID +"/"
     dataset_path   = "_DATA/DEMO/" 
     
-
-    # os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
-    # os.system("mkdir _DATA/DEMO/")
-    # os.system("mkdir _DATA/DEMO/"+video_folder)
-    # os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
+<<<<<<< HEAD
+#     os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
+#     os.system("mkdir _DATA/DEMO/")
+#     os.system("mkdir _DATA/DEMO/"+video_folder)
+#     os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
 
 #     video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
 #     print('Summary:')
 #     print(f'Title: {video.title}')
 #     print(f'Duration: {video.length / 60:.2f} minutes')
+#     # print(f'Rating: {video.rating:.2f}')
 #     print(f'# of views: {video.views}')
 #     print(video.streams.all())
 #     video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
 #     fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
 #     print(fe.n_frames)
 #     print(fe.get_video_duration())
-#     fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=1000)
+#     fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=100000)
+=======
+    os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
+    os.system("mkdir _DATA/DEMO/")
+    os.system("mkdir _DATA/DEMO/"+video_folder)
+    os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
+
+    video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
+    print('Summary:')
+    print(f'Title: {video.title}')
+    print(f'Duration: {video.length / 60:.2f} minutes')
+    print(f'# of views: {video.views}')
+    print(video.streams.all())
+    video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
+    fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
+    print(fe.n_frames)
+    print(fe.get_video_duration())
+    fe.extract_frames(every_x_frame=2, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=100)
+>>>>>>> c859a3bd26a148480db30862663d171db82b1ec5
     
     
 #     detection_time_    = run_detection(dataset_path + video_folder)
@@ -346,7 +366,7 @@ if __name__ == '__main__':
     opt.max_age_x      = 100
     opt.n_init_x       = 5
     opt.max_ids_x      = 10
-    opt.window_x       = 1
+    opt.window_x       = 10
     opt.metric_x       = "euclidean_min"
     opt.render         = False
     opt.save           = False
