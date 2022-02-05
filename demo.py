@@ -312,26 +312,26 @@ if __name__ == '__main__':
     dataset_path   = "_DATA/DEMO/" 
     
 
-    # os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
-    # os.system("mkdir _DATA/DEMO/")
-    # os.system("mkdir _DATA/DEMO/"+video_folder)
-    # os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
+    os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
+    os.system("mkdir _DATA/DEMO/")
+    os.system("mkdir _DATA/DEMO/"+video_folder)
+    os.system("mkdir _DATA/DEMO/"+video_folder+"/detections")
 
-#     video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
-#     print('Summary:')
-#     print(f'Title: {video.title}')
-#     print(f'Duration: {video.length / 60:.2f} minutes')
-#     print(f'# of views: {video.views}')
-#     print(video.streams.all())
-#     video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
-#     fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
-#     print(fe.n_frames)
-#     print(fe.get_video_duration())
-#     fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=1000)
+    video = YouTube('https://www.youtube.com/watch?v=' + YOUTUBE_ID)
+    print('Summary:')
+    print(f'Title: {video.title}')
+    print(f'Duration: {video.length / 60:.2f} minutes')
+    print(f'# of views: {video.views}')
+    print(video.streams.all())
+    video.streams.get_by_itag(18).download(output_path = dataset_path + video_folder, filename="youtube.mp4")
+    fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
+    print(fe.n_frames)
+    print(fe.get_video_duration())
+    fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=1000)
     
     
-#     detection_time_    = run_detection(dataset_path + video_folder)
-#     hmar_time_         = run_hmar(dataset_path + video_folder)
+    run_detection(dataset_path + video_folder)
+    run_hmar(dataset_path + video_folder)
 
     
     parser = argparse.ArgumentParser(description='T3PO Tracker')
@@ -364,8 +364,5 @@ if __name__ == '__main__':
     hmar_tracker.cuda()
     hmar_tracker.eval()
     
-    t3dp_time_         = test_tracker(opt, hmar_tracker)
+    test_tracker(opt, hmar_tracker)
 
-    # print("Mask RCNN runtime : ", np.sum(detection_time_))    
-    # print("HMAR runtime : ", np.sum(hmar_time_))    
-    print("T3DP runtime : ", np.sum(t3dp_time_))
