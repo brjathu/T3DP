@@ -208,13 +208,6 @@ if __name__ == '__main__':
     hmar_tracker    = HMAR_tracker(mode="APK", betas=[1.0,1.0,1.0])
     path_model      = os.path.join('_DATA/t3dp_transformer.pth')   #  APK, HMAR, posetrack
 
-    # hmar_tracker    = HMAR_tracker(mode="APK", betas=[1.0,1.0,1.0], use_embeddings=True)
-    # path_model      = os.path.join('_DATA/best_model_lemon-violet-142.pth')      #  APK, HMAR, mupots
-
-    # hmar_tracker    = HMAR_tracker(mode="APK", betas=[1.0,1.0,0.0], use_embeddings=True)
-    # path_model      = os.path.join('_DATA/best_model_radiant-disco-147.pth')     #  APK, HMAR, ava
-
-
     prev_best       = torch.load(path_model)
     print("loading from ", prev_best['epoch'])
     hmar_tracker.load_state_dict(prev_best['model'], strict=True)    
