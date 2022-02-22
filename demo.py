@@ -327,7 +327,7 @@ if __name__ == '__main__':
     fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
     print(fe.n_frames)
     print(fe.get_video_duration())
-    fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=1000)
+    fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=100)
     
     
     run_detection(dataset_path + video_folder)
