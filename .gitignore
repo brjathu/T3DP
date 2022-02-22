@@ -14,6 +14,7 @@ _BACKUP/
 _BACKUP2/
 out/
 save/
+pytube/
 deep_sort/
 *.npy
 *.pickle
