@@ -304,12 +304,11 @@ def run_hmar(video_path):
             
 if __name__ == '__main__':
 
-    list_ = ['e62p_K4-Cvc'] #, '6bNOnXTe4Ok', 'bjERnGQiJfg', 'DDjp7I77gAI', 'GGsyd4Fn-vI', '82YuH0sZMno', 'jGeBU3Zr6qk', '0_hYBHyKk34']
+    list_ = ['xEH_5T9jMVU']
+    
     for YOUTUBE_ID in list_:
-        # YOUTUBE_ID     = 'xEH_5T9jMVU'  
         video_folder   = "video_"+ YOUTUBE_ID +"/"
         dataset_path   = "_DATA/DEMO/" 
-
 
         os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
         os.system("mkdir _DATA/DEMO/")
