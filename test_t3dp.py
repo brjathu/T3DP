@@ -126,7 +126,6 @@ def test_tracker(opt, hmar_tracker):
                                                                           keypoints_3d[w_*window:(w_+1)*window].unsqueeze(0))   
                         embeddings = output["output_embeddings"] 
                 embeddings = embeddings.view(BS, window, P, -1)
-                time_.append(time.time()-t1)
                 for t in list(range(window)):
                     t_   = t + w_*window
                     loc_ = np.where(person_id[w_*window:(w_+1)*window][t]!=-1)[0]
