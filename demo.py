@@ -82,12 +82,12 @@ class FrameExtractor():
         while self.vid_cap.isOpened():
             success,image = self.vid_cap.read() 
             if not success: break
-            if frame_cnt % every_x_frame == 0 and (frame_cnt>frames[1] and frame_cnt<frames[0]):
+            if frame_cnt % every_x_frame == 0 and (frame_cnt<frames[1] and frame_cnt>frames[0]):
                 img_path = os.path.join(dest_path, ''.join([img_name,  '%06d' % (img_cnt+1), img_ext]))
                 cv2.imwrite(img_path, image)  
                 img_cnt += 1
             frame_cnt += 1
-            if(max_frames<img_cnt): break
+            if(frame_cnt>frames[1]): break
         self.vid_cap.release()
         cv2.destroyAllWindows()
 
@@ -306,8 +306,8 @@ if __name__ == '__main__':
 
     list_ = ['xEH_5T9jMVU']
     
-    for YOUTUBE_ID in list_:
-        video_folder   = "video_"+ YOUTUBE_ID +"/"
+    for i, YOUTUBE_ID in enumerate(list_):
+        video_folder   = "video_"+ str(i) +"/"
         dataset_path   = "_DATA/DEMO/" 
 
         os.system("rm -rf "+"_DATA/DEMO/"+video_folder)
@@ -349,7 +349,7 @@ if __name__ == '__main__':
         opt.render         = True
         opt.save           = True
         opt.downsample     = 1
-        opt.videos_seq     = ["video_"+ YOUTUBE_ID]
+        opt.videos_seq     = ["video_"+ str(i)]
 
 
         hmar_tracker       = HMAR_tracker(mode="APK", betas=[1.0,1.0,1.0])
