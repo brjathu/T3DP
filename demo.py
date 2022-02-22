@@ -68,7 +68,7 @@ class FrameExtractor():
         n_images = math.floor(self.n_frames / every_x_frame) + 1
         print(f'Extracting every {every_x_frame} (nd/rd/th) frame would result in {n_images} images.')
         
-    def extract_frames(self, every_x_frame, img_name, dest_path=None, img_ext = '.jpg', max_frames=1000):
+    def extract_frames(self, every_x_frame, img_name, dest_path=None, img_ext = '.jpg', frames=[200,300]):
         if not self.vid_cap.isOpened():
             self.vid_cap = cv2.VideoCapture(self.video_path)
         
@@ -82,7 +82,7 @@ class FrameExtractor():
         while self.vid_cap.isOpened():
             success,image = self.vid_cap.read() 
             if not success: break
-            if frame_cnt % every_x_frame == 0:
+            if frame_cnt % every_x_frame == 0 and (frame_cnt>frames[1] and frame_cnt<frames[0]):
                 img_path = os.path.join(dest_path, ''.join([img_name,  '%06d' % (img_cnt+1), img_ext]))
                 cv2.imwrite(img_path, image)  
                 img_cnt += 1
@@ -325,7 +325,7 @@ if __name__ == '__main__':
         fe = FrameExtractor(dataset_path + video_folder + "/youtube.mp4")
         print(fe.n_frames)
         print(fe.get_video_duration())
-        fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", max_frames=100)
+        fe.extract_frames(every_x_frame=1, img_name='', dest_path=dataset_path + video_folder + "/", frames=[300,400])
 
 
         run_detection(dataset_path + video_folder)
@@ -336,7 +336,7 @@ if __name__ == '__main__':
         parser.add_argument('--dataset', type=str, default='val')
 
         opt                = parser.parse_args()
-        opt.storage_folder = "Videos_Final_DEMO2"    
+        opt.storage_folder = "Videos_Final_DEMO"    
         opt.dataset        = "demo"
         opt.dataset_path   = "_DATA/DEMO/"
         opt.th_x           = 20000000
