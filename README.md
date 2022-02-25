@@ -1,8 +1,9 @@
 # Tracking People with 3D Representations
-Code repository for the paper "Tracking People with 3D Representations" [(paper link)](https://papers.nips.cc/paper/2021/hash/c74c4bf0dad9cbae3d80faa054b7d8ca-Abstract.html) [(project site)](http://people.eecs.berkeley.edu/~jathushan/T3DP/). \
+Code repository for the paper "Tracking People with 3D Representations". \
 [Jathushan Rajasegaran](http://people.eecs.berkeley.edu/~jathushan/), [Georgios Pavlakos](https://geopavlakos.github.io/), [Angjoo Kanazawa](https://people.eecs.berkeley.edu/~kanazawa/), [Jitendra Malik](http://people.eecs.berkeley.edu/~malik/).\
-Neural Information Processing Systems (NeurIPS), 2021. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/12dqsfDYuOWkGcG2Zjj46a7wMcSbKdwtB?usp=sharing) 
-
+Neural Information Processing Systems (NeurIPS), 2021. \
+[![arXiv](https://img.shields.io/badge/arXiv-2112.04477-00ff00.svg)](https://papers.nips.cc/paper/2021/hash/c74c4bf0dad9cbae3d80faa054b7d8ca-Abstract.html)       [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://people.eecs.berkeley.edu/~jathushan/T3DP/)     [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/12dqsfDYuOWkGcG2Zjj46a7wMcSbKdwtB?usp=sharing)
+ 
 This code repository provides a code implementation for our paper T3DP, with installation, preparing datasets, and evaluating on datasets, and a demo code to run on any youtube videos. 
 
 <p align="center"><img src="./utils/imgs/teaser.png" width="800"></p>
